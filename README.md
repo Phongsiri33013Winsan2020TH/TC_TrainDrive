@@ -1,3 +1,5 @@
+NOTE I CURRENTLY LAZY I'LL FIND A WAY TO ADD FOLDER LATER AND FASTER WAYS TO REMOVE FILES
+
 # TC_TrainDrive
 A way to drive train. Main source code from Mineshafter61.
 
