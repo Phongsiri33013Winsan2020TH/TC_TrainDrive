@@ -15,10 +15,10 @@ A way to drive train. Main source code from Mineshafter61.
 4. Drive the train away. yes, drive away.
 
 ## Throttle Configuration
-B1-B3 = Braking trains.
-N = Neutral
-P1-P3 = Powering trains.
-Note: Neutral can draining speeds.
+- B1-B3 = Braking trains.
+- N = Neutral
+- P1-P3 = Powering trains.
+- Note: Neutral can draining speeds.
 
 ## Train Tags
 ### Tag "auto"
