@@ -1,0 +1,18 @@
+name: TC_DriveTrain
+version: '${project.version}'
+main: winsan.witalandmc.drivetrain
+api-version: 1.17
+prefix: TC_DriveTrain
+load: STARTUP
+depend: [ BKCommonLib ]
+authors: [ WinsanMPRR ]
+description: The plugin for manually drive TrainCarts train. Main source code is from Mineshafter61's OldThrottle.
+website: https://www.witaland.uk/
+commands:
+  traindrive:
+    usage: /trainthrottle <enable|disable>
+    description: The command to enable or disable train throttle.
+permissions:
+  train.throttle:
+    default: true
+    description: Allow players to enable or disable train throttle.
