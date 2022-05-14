@@ -1,19 +1,18 @@
 package winsan.witalandmc;
 
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.command.CommandExecutor;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
-public final class drivetrain extends JavaPlugin implements CommandExecutor {
+public final class DriveTrain extends JavaPlugin{
 
     @Override
     public void onEnable() {
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"TrainThrottle is now enabled.");
         getConfig().options().copyDefaults(true);
         saveConfig();
-        trainthrottle throttle = new trainthrottle();
+        TrainThrottle throttle = new TrainThrottle();
         Objects.requireNonNull(getCommand("traindrive")).setExecutor(throttle);
         getServer().getPluginManager().registerEvents(throttle, this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, throttle::throttleloop, 0L, 1L);

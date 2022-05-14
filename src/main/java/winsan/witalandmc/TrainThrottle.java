@@ -26,7 +26,7 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class trainthrottle implements Listener, CommandExecutor {
+public class TrainThrottle implements Listener, CommandExecutor {
 
     HashMap<Player, Byte> modeHashMap = new HashMap<>();
     HashMap<Player, ItemStack[]> invHashMap = new HashMap<>();
@@ -130,10 +130,6 @@ public class trainthrottle implements Listener, CommandExecutor {
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(7, item);
 
-
-
-
-
     }
 
     @EventHandler
@@ -165,8 +161,7 @@ public class trainthrottle implements Listener, CommandExecutor {
                 player.getInventory().setItem(i, playerHB[i]);
             }
         }
-
-
+        
     }
 
 
@@ -187,20 +182,17 @@ public class trainthrottle implements Listener, CommandExecutor {
 
     @EventHandler
     public void die(PlayerDeathEvent event) {
-        if (modeHashMap.containsKey(event.getEntity())) {
+        if (modeHashMap.containsKey(event.getEntity()))
             emergencyBrake(event.getEntity());
-        }
     }
 
     @EventHandler
     public void shutdown(PlayerDeathEvent event) {
-        if (modeHashMap.containsKey(event.getEntity())) {
+        if (modeHashMap.containsKey(event.getEntity()))
             emergencyBrake(event.getEntity());
-        }
     }
 
-
-
+    
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         Action action = event.getAction();
@@ -212,8 +204,7 @@ public class trainthrottle implements Listener, CommandExecutor {
         }
     }
 
-
-
+    
     public void throttleloop() {
 
         for (Player player : modeHashMap.keySet()) {
