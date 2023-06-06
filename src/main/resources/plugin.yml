@@ -11,7 +11,7 @@ website: https://www.witaland.uk/
 commands:
   drive:
     usage: /drive <enable|disable>
-    description: The command to enable or disable train throttle. (Disable should auto apply when exit the train)
+    description: The command to enable or disable train throttle.
 permissions:
   train.throttle:
     default: true

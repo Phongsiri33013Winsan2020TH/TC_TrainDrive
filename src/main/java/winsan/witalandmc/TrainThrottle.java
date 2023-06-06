@@ -33,7 +33,7 @@ public class TrainThrottle implements Listener, CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String s, String[] args) {
-        if (command.getName().equalsIgnoreCase("traindrive")) {
+        if (command.getName().equalsIgnoreCase("drive")) {
             if (sender instanceof Player && sender.hasPermission("train.throttle")) {
 
                 if (args.length == 1 && args[0].equalsIgnoreCase("enable")) {
