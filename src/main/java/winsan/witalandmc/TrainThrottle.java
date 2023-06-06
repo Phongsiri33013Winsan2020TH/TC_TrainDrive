@@ -33,7 +33,7 @@ public class TrainThrottle implements Listener, CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String s, String[] args) {
-        if (command.getName().equalsIgnoreCase("drive")) {
+        if (command.getName().equalsIgnoreCase("traindrive")) {
             if (sender instanceof Player && sender.hasPermission("train.throttle")) {
 
                 if (args.length == 1 && args[0].equalsIgnoreCase("enable")) {
@@ -96,47 +96,47 @@ public class TrainThrottle implements Listener, CommandExecutor {
         ItemStack item = new ItemStack(Material.BARRIER, 1);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
-        itemMeta.setDisplayName("§cBrake 3");
+        itemMeta.setDisplayName("§4Emergency Brake");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(0, item);
 
         item.setType(Material.RED_CONCRETE_POWDER);
-        itemMeta.setDisplayName("§5Power 3");
+        itemMeta.setDisplayName("§cBrake 4");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(1, item);
 
         item.setType(Material.RED_CONCRETE);
-        itemMeta.setDisplayName("§6Brake 2");
+        itemMeta.setDisplayName("§cBrake 3");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(2, item);
 
         item.setType(Material.ORANGE_CONCRETE_POWDER);
-        itemMeta.setDisplayName("§eBrake 1");
+        itemMeta.setDisplayName("§6Brake 2");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(3, item);
 
         item.setType(Material.ORANGE_CONCRETE);
-        itemMeta.setDisplayName("§aNeutral");
+        itemMeta.setDisplayName("§6Brake 1");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(4, item);
 
         item.setType(Material.YELLOW_CONCRETE);
-        itemMeta.setDisplayName("§bPower 1");
+        itemMeta.setDisplayName("§eNeutral");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(5, item);
 
         item.setType(Material.LIME_CONCRETE);
-        itemMeta.setDisplayName("§1Power 2");
+        itemMeta.setDisplayName("§aPower 1");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(6, item);
 
         item.setType(Material.LIGHT_BLUE_CONCRETE);
-        itemMeta.setDisplayName("§5Power 3");
+        itemMeta.setDisplayName("§bPower 2");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(7, item);
 
         item.setType(Material.BLUE_CONCRETE);
-        itemMeta.setDisplayName("§5Power 3");
+        itemMeta.setDisplayName("§1Power 3");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(8, item);
 

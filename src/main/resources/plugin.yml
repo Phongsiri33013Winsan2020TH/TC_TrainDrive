@@ -9,8 +9,8 @@ authors: [ WinsanMPRR ]
 description: The plugin for manually drive TrainCarts train. Main source code is from Mineshafter61's OldThrottle.
 website: https://www.witaland.uk/
 commands:
-  drive:
-    usage: /drive <enable|disable>
+  traindrive:
+    usage: /traindrive <enable|disable>
     description: The command to enable or disable train throttle.
 permissions:
   train.throttle:

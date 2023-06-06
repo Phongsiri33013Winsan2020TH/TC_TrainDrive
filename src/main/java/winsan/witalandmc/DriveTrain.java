@@ -13,7 +13,7 @@ public final class DriveTrain extends JavaPlugin{
         getConfig().options().copyDefaults(true);
         saveConfig();
         TrainThrottle throttle = new TrainThrottle();
-        Objects.requireNonNull(getCommand("drive")).setExecutor(throttle);
+        Objects.requireNonNull(getCommand("traindrive")).setExecutor(throttle);
         getServer().getPluginManager().registerEvents(throttle, this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, throttle::throttleloop, 0L, 1L);
     }

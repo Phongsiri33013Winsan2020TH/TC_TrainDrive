@@ -6,7 +6,7 @@
 
     <groupId>winsan.witalandmc</groupId>
     <artifactId>drivetrain</artifactId>
-    <version>1.17.1dev1</version>
+    <version>1.19.4dev1</version>
     <packaging>jar</packaging>
 
     <name>TC_DriveTrain</name>
