@@ -93,42 +93,52 @@ public class TrainThrottle implements Listener, CommandExecutor {
             player.getInventory().setItem(i, new ItemStack(Material.AIR, 0));
         }
 
-        ItemStack item = new ItemStack(Material.RED_WOOL, 1);
+        ItemStack item = new ItemStack(Material.BARRIER, 1);
         ItemMeta itemMeta = item.getItemMeta();
         assert itemMeta != null;
         itemMeta.setDisplayName("§cBrake 3");
         item.setItemMeta(itemMeta);
+        player.getInventory().setItem(0, item);
+
+        item.setType(Material.RED_CONCRETE_POWDER);
+        itemMeta.setDisplayName("§5Power 3");
+        item.setItemMeta(itemMeta);
         player.getInventory().setItem(1, item);
 
-        item.setType(Material.ORANGE_WOOL);
+        item.setType(Material.RED_CONCRETE);
         itemMeta.setDisplayName("§6Brake 2");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(2, item);
 
-        item.setType(Material.YELLOW_WOOL);
+        item.setType(Material.ORANGE_CONCRETE_POWDER);
         itemMeta.setDisplayName("§eBrake 1");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(3, item);
 
-        item.setType(Material.LIME_WOOL);
+        item.setType(Material.ORANGE_CONCRETE);
         itemMeta.setDisplayName("§aNeutral");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(4, item);
 
-        item.setType(Material.LIGHT_BLUE_WOOL);
+        item.setType(Material.YELLOW_CONCRETE);
         itemMeta.setDisplayName("§bPower 1");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(5, item);
 
-        item.setType(Material.BLUE_WOOL);
+        item.setType(Material.LIME_CONCRETE);
         itemMeta.setDisplayName("§1Power 2");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(6, item);
 
-        item.setType(Material.PURPLE_WOOL);
+        item.setType(Material.LIGHT_BLUE_CONCRETE);
         itemMeta.setDisplayName("§5Power 3");
         item.setItemMeta(itemMeta);
         player.getInventory().setItem(7, item);
+
+        item.setType(Material.BLUE_CONCRETE);
+        itemMeta.setDisplayName("§5Power 3");
+        item.setItemMeta(itemMeta);
+        player.getInventory().setItem(8, item);
 
     }
 
@@ -213,10 +223,10 @@ public class TrainThrottle implements Listener, CommandExecutor {
             if (properties != null && properties.hasOwners() && properties.getOwners().contains(player.getName().toLowerCase())) {
                 if (modeHashMap.containsKey(player)) {
                     switch (player.getInventory().getHeldItemSlot()) {
-                        case 1 -> {
+                        case 0 -> {
                             if (properties.matchTag("neutral")) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
                             }
                             else if (properties.matchTag("ats")) {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
@@ -226,14 +236,48 @@ public class TrainThrottle implements Listener, CommandExecutor {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "ATO" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Control"));
                             }
                             else {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.008, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "EB" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-5"));
+                            }
+                        }
+                        case 1 -> {
+                            if (properties.matchTag("neutral")) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "B3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-5"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                            }
+                            else if (properties.matchTag("ats")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.020, 0));
+                            }
+                            else if (properties.matchTag("auto")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "ATO" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Control"));
+                            }
+                            else {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.006, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "B4" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-5"));
                             }
                         }
                         case 2 -> {
                             if (properties.matchTag("neutral")) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.005, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                            }
+                            else if (properties.matchTag("ats")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.020, 0));
+                            }
+                            else if (properties.matchTag("auto")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "ATO" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Control"));
+                            }
+                            else {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.004, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "B3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-5"));
+                            }
+                        }
+                        case 3 -> {
+                            if (properties.matchTag("neutral")) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.002, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE+ " blocks/tick"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE+ " blocks/tick"));
                             }
                             else if (properties.matchTag("ats")) {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
@@ -247,10 +291,10 @@ public class TrainThrottle implements Listener, CommandExecutor {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "B2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-2"));
                             }
                         }
-                        case 3 -> {
+                        case 4 -> {
                             if (properties.matchTag("neutral")) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.001, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
                             }
                             else if (properties.matchTag("ats")) {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
@@ -261,12 +305,12 @@ public class TrainThrottle implements Listener, CommandExecutor {
                             }
                             else {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.001, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.YELLOW + "B1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-1"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GOLD + "B1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "-1"));
                             }
                         }
-                        case 4 -> {
+                        case 5 -> {
                             if (properties.matchTag("neutral")) {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
                                 if (Objects.requireNonNull(properties).getSpeedLimit() < 0.0125) {
                                     properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.00005, 0));}
                                 else
@@ -281,16 +325,16 @@ public class TrainThrottle implements Listener, CommandExecutor {
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.0125) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.00005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "N" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.YELLOW + "N" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
                             }
                             else {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.00005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "N" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.YELLOW + "N" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
                             }
                         }
-                        case 5 -> {
+                        case 6 -> {
                             if (properties.matchTag("neutral")) {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
                             }
                             else if (properties.matchTag("ats")) {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
@@ -301,68 +345,32 @@ public class TrainThrottle implements Listener, CommandExecutor {
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.05) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "5"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "5"));
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.15) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.004, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "4"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "4"));
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.30) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.003, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "3"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "3"));
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.45) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.002, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "2"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "2"));
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.60) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.001, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "1"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "1"));
                             }
                             else {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.00005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
-                            }
-                        }
-                        case 6 -> {
-                            if (properties.matchTag("neutral")) {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
-                            }
-                            else if (properties.matchTag("ats")) {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.020, 0));
-                            }
-                            else if (properties.matchTag("auto")) {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "ATO" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Control"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.15) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "5"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.20) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.004, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "4"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.40) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.003, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "3"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.60) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.002, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "2"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.80) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.001, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "1"));
-                            }
-                            else {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.00005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "P1" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
                             }
                         }
                         case 7 -> {
                             if (properties.matchTag("neutral")) {
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC FAULT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
                             }
                             else if (properties.matchTag("ats")) {
                                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
@@ -373,27 +381,63 @@ public class TrainThrottle implements Listener, CommandExecutor {
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.15) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_PURPLE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "5"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "5"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.20) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.004, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "4"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.40) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.003, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "3"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.60) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.002, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "2"));
                             }
                             else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.80) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.004, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_PURPLE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "4"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 1.00) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.003, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_PURPLE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "3"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 1.20) {
-                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.002, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_PURPLE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "2"));
-                            }
-                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 1.60) {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.001, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_PURPLE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "1"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "1"));
                             }
                             else {
                                 properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.00005, 0));
-                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_PURPLE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.AQUA + "P2" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
+                            }
+                        }
+                        case 8 -> {
+                            if (properties.matchTag("neutral")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED+"ELECTRIC CUT"+ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick"));
+                            }
+                            else if (properties.matchTag("ats")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "ATS" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Brake"));
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.020, 0));
+                            }
+                            else if (properties.matchTag("auto")) {
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_AQUA + "ATO" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "Auto Control"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.15) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.005, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "5"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 0.80) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.004, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "4"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 1.00) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.003, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "3"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 1.20) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.002, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "2"));
+                            }
+                            else if (Objects.requireNonNull(properties).getSpeedLimit() < 1.60) {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() + 0.001, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "1"));
+                            }
+                            else {
+                                properties.setSpeedLimit(Math.max(properties.getSpeedLimit() - 0.00005, 0));
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_BLUE + "P3" + ChatColor.WHITE + " | Speed: " + ChatColor.LIGHT_PURPLE + String.format("%.2f", properties.getSpeedLimit()) + ChatColor.WHITE + " blocks/tick | Acceleration: "+ChatColor.LIGHT_PURPLE+ "0"));
                             }
                         }
                     }
